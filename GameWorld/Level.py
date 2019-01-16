@@ -1,10 +1,12 @@
 import SpriteTools as st
+import random
 
 class Level(object):
 
-    def __init__(self, game, level):
-        self.grid = np.ones((10,10))
-        self.game = game
+    def __init__(self, size, surface, level=1):
+
+        self.size = size
+        self.surface = surface
         self.level = level
         self.terrainImages = st.Terrain()
         self.itemImages = st.Items()
@@ -27,10 +29,10 @@ class Level(object):
                             self.terrainImages.path_t_left,
                             self.terrainImages.path_t_right,
 
-                            self.terrainImages.waterland_corner_top_left
+                            self.terrainImages.waterland_corner_top_left,
                             self.terrainImages.waterland_corner_bottom_left,
                             self.terrainImages.waterland_corner_bottom_right,
-                            self.terrainImages.waterland_corner_top_right
+                            self.terrainImages.waterland_corner_top_right,
 
                             self.terrainImages.landwater_top,
                             self.terrainImages.landwater_left,
@@ -78,3 +80,24 @@ class Level(object):
                         self.itemImages.magic_bow,
                         self.itemImages.bow_of_death
                         ]
+        self.grid = [self.terrainList[1]] * size ** 2
+
+        if self.level == 1:
+            tmp = [0, size, 2*size, 3*size]
+            tmp2 = [1, 2+size, 3+size*2, 4+size*3, 5+size*4, 6+size*5, 7+size*6]
+            for i in tmp:
+                for j in tmp2:
+                    self.grid[i+j] = self.terrainList[0]
+            self.grid[size] = self.terrainList[4]
+
+
+
+    def __str__(self):
+        out = "----------------------\n"
+        for row in self.grid:
+            for element in row:
+                out = out + str(int(element)).strip('.') + " "
+            out = out + "\n"
+        return out
+
+
