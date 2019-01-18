@@ -97,6 +97,11 @@ class Terrain():
         self.landwater_left = get_image(7 * 32, 4 * 32, 32, 32, terrain)
         self.landwater_right = get_image(9 * 32, 4 * 32, 32, 32, terrain)
 
+class PlayersImg():
+    def __init__(self):
+        units_blue = pg.image.load("sprites/units_blue.png")
+        self.blue_1 = get_image(0, 0, 32, 32, units_blue)
+
 
 
 
