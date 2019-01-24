@@ -10,12 +10,33 @@ class Game:
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)
+        self.load_data()
+
+    def load_data(self):
+        self.map_data=[]
+        with open('level1.txt', 'rt') as f:
+            for line in f:
+                self.map_data.append(line)
 
     def new_game(self):
         # initialize variables to setup a new game
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
-        self.player = ply.Player(self, 10, 10) # player's initial location
+        self.grass = pg.sprite.Group()
+
+        for row, tiles in enumerate(self.map_data):
+            for col, tile in enumerate(tiles):
+                if tile == '1':
+                    st.Wall(self, col, row)
+                if tile == '.':
+                    st.Grass(self, col, row)
+                if tile == 'P':
+                    st.Grass(self, col, row)
+                    self.player = ply.Player(self, col, row)
+
+        # drawing a testing wall
+        # for x in range(10, 20):
+        #     st.Wall(self, x, 5)
 
     def run(self):
         self.playing = True

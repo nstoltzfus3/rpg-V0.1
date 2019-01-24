@@ -1,4 +1,5 @@
 import pygame as pg
+from settings import *
 def get_image(posx, posy, width, height, sprite_sheet):
     """Extracts image from sprite sheet"""
     image = pg.Surface([width, height])
@@ -97,14 +98,41 @@ class Terrain():
         self.landwater_left = get_image(7 * 32, 4 * 32, 32, 32, terrain)
         self.landwater_right = get_image(9 * 32, 4 * 32, 32, 32, terrain)
 
-class PlayersImg():
+class BluePlayers():
     def __init__(self):
         units_blue = pg.image.load("sprites/units_blue.png")
-        self.blue_1 = get_image(0, 0, 32, 32, units_blue)
+        self.blue_thic = get_image(0, 0, 32, 32, units_blue)
 
 
+# Drawing a stone at (x, y) - iterable
+class Wall(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.walls
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pg.Surface((TILESIZE,TILESIZE))
+        self.terrain = Terrain()
+        self.image.blit(self.terrain.stone, self.image.get_rect())
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
-
+# Drawing grass at (x, y)
+class Grass(pg.sprite.Sprite):
+    def __init__(self, game, x, y):
+        self.groups = game.all_sprites, game.grass
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = pg.Surface((TILESIZE, TILESIZE))
+        self.terrain = Terrain()
+        self.image.blit(self.terrain.grass, self.image.get_rect())
+        self.rect = self.image.get_rect()
+        self.x = x
+        self.y = y
+        self.rect.x = x * TILESIZE
+        self.rect.y = y * TILESIZE
 
 
 
